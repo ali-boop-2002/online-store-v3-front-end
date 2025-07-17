@@ -1,26 +1,23 @@
+import AdminRoutes from "@/Newcomponents/AdminRoutes";
+import PrivateRoute from "@/Newcomponents/PrivateRoute";
+import AdminOrderScreen from "@/screen/AdminOrderScreen";
+import AdminProductPage from "@/screen/AdminProductPage";
+import CheckOutScreen from "@/screen/CheckOutScreen";
+import DashboardScreen from "@/screen/DashboardScreen";
+import MyOrder from "@/screen/MyOrder";
+import ProductEditScreen from "@/screen/ProductEditScreen";
+import ProductUpload from "@/screen/ProductUpload";
+import SuccessPage from "@/screen/Success";
+import UserCart from "@/screen/UserCart";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import HomeScreen from "../screen/HomeScreen";
-import ProductScreen from "../screen/ProductScreen";
+import { Bounce, ToastContainer } from "react-toastify";
 import AppLayout from "../screen/AppLayout";
+import HomeScreen from "../screen/HomeScreen";
 import LoginScreen from "../screen/LoginScreen";
+import ProductScreen from "../screen/ProductScreen";
+import ProfileScreen from "../screen/ProfileScreen";
 import SignupScreen from "../screen/SignupScreen";
 import VerifiedSuccessScreen from "../screen/VerifiedSuccessScreen";
-import { Bounce, ToastContainer } from "react-toastify";
-import ProfileScreen from "../screen/ProfileScreen";
-import PrivateRoute from "@/Newcomponents/PrivateRoute";
-import ProductUpload from "@/screen/ProductUpload";
-import ProductEdit from "@/screen/ProductEdit";
-import AdminProductPage from "@/screen/AdminProductPage";
-import ProductEditScreen from "@/screen/ProductEditScreen";
-import UserCart from "@/screen/UserCart";
-import CheckOutScreen from "@/screen/CheckOutScreen";
-import SuccessPage from "@/screen/Success";
-import CancelPage from "@/screen/Cance";
-import MyOrder from "@/screen/MyOrder";
-import DashboardScreen from "@/screen/DashboardScreen";
-import AdminRoutes from "@/Newcomponents/AdminRoutes";
-import AdminOrderScreen from "@/screen/AdminOrderScreen";
-
 const router = createBrowserRouter([
   {
     element: <AppLayout />,

@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import { useLoginMutation } from "../slices/userApiSlice";
 import { setCredentials } from "../slices/authSlice";
 import { Link, useNavigate } from "react-router-dom";
+import { API_ENDPOINTS } from "@/constants";
 
 function LoginScreen() {
   const [email, setEmail] = useState("");
@@ -12,6 +13,8 @@ function LoginScreen() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [error, setError] = useState("");
+  console.log(API_ENDPOINTS.BASE);
+
   const submitHandler = async (e) => {
     e.preventDefault();
     try {
