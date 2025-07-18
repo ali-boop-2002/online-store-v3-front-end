@@ -4,10 +4,9 @@ import { Navigation } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
 
-const localhost = "http://localhost:1000/images/";
 const images = [
-  `${localhost}Screenshot 2025-06-28 at 11.08.32 PM.png`,
-  `${localhost}Screenshot 2025-06-28 at 11.21.39 PM.png`,
+  "/images/Screenshot 2025-06-28 at 11.08.32 PM.png",
+  "/images/Screenshot 2025-06-28 at 11.21.39 PM.png",
 ];
 
 function ProductCarousel() {
