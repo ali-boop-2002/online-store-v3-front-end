@@ -41,6 +41,7 @@ export const usersApiSlice = apiSlice.injectEndpoints({
     getTotalUser: builder.query({
       query: () => `${API_ENDPOINTS.USERS}/getTotalUsers`,
       providesTags: ["User"],
+      credentials: "include",
     }),
   }),
 });

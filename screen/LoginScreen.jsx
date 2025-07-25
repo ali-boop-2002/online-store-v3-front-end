@@ -13,7 +13,7 @@ function LoginScreen() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [error, setError] = useState("");
-  console.log(API_ENDPOINTS.BASE);
+  console.log(API_ENDPOINTS);
 
   const submitHandler = async (e) => {
     e.preventDefault();
