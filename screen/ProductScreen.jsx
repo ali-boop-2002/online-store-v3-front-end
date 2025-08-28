@@ -68,11 +68,11 @@ function ProductScreen() {
 
   return (
     <>
-      <div className="max-w-6xl mx-auto p-6 flex flex-col md:flex-row gap-6">
+      <div className="max-w-6xl mx-auto p-6 flex flex-col md:flex-row gap-6 bg-yellow-200">
         {/* Image carousel */}
         {/* Image carousel */}
-        <div className="md:w-1/2">
-          <div className="relative h-96 flex items-center justify-center bg-gray-100 rounded-lg shadow-lg">
+        <div className="md:w-1/2 bg-orange-400">
+          <div className="relative h-96 flex items-center justify-center bg-gray-100 rounded-lg shadow-lg bg-pink-400">
             <img
               src={product.image[currentImage]}
               alt={product.name}
@@ -104,7 +104,7 @@ function ProductScreen() {
           </div>
 
           {/* Thumbnails below image */}
-          <div className="flex gap-2 justify-center mt-4 bg-blue-100 bg-opacity-90 p-2 rounded">
+          <div className="flex gap-2 justify-center mt-4 bg-red-300 bg-opacity-90 p-2 rounded">
             {product.image.map((img, index) => (
               <img
                 key={index}
@@ -122,18 +122,20 @@ function ProductScreen() {
         </div>
 
         {/* Product info */}
-        <div className="md:w-1/2 flex flex-col justify-center">
-          <h1 className="text-3xl font-semibold mb-4">{product.name}</h1>
+        <div className="md:w-1/2 flex flex-col justify-center bg-green-400">
+          <h1 className="text-lg md:text-3xl font-semibold mb-4">
+            {product.name}
+          </h1>
           <div className="flex">
             <StarRating value={product.rating || 0} readOnly={true} />
             <span className="ml-1 mt-0.5">({product.numReviews || 0})</span>
           </div>
           <p className="text-gray-700 mb-6">{product.description}</p>
           <p className="text-2xl font-bold text-blue-700">${product.price}</p>
-          <div className="relative h-24">
+          <div className="relative h-24 bg-lime-300">
             <div className="absolute left-1/2 transform -translate-x-1/2 top-0">
               <button
-                className="bg-amber-300 rounded-3xl h-10 w-40 px-4 hover:cursor-pointer hover:h-12 hover:w-44 transition-all"
+                className="bg-amber-300 rounded-3xl h-10 w-40 px-4 hover:cursor-pointer hover:bg-amber-400 transition-all"
                 onClick={() => {
                   // handleIncreaseQuantity();
                   handleAddToCart();

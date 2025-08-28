@@ -27,7 +27,9 @@ function Header() {
   return (
     <header className="bg-blue-800 text-white px-6 py-4 shadow-md min-w-screen">
       <div className="container mx-auto flex items-center justify-between">
-        <h1 className="text-2xl font-bold cursor-pointer">MyStore</h1>
+        <Link to="/" className="hover:text-blue-400">
+          <h1 className="text-2xl font-bold cursor-pointer">MyStore</h1>
+        </Link>
 
         <nav className="space-x-6 relative flex items-center">
           <Link to="/" className="hover:text-blue-400">

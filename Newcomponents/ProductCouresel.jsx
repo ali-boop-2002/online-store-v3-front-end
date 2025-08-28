@@ -4,10 +4,7 @@ import { Navigation } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
 
-const images = [
-  "/images/Screenshot 2025-06-28 at 11.08.32 PM.png",
-  "/images/Screenshot 2025-06-28 at 11.21.39 PM.png",
-];
+const images = ["/images/school1.png", "/images/school2.png"];
 
 function ProductCarousel() {
   return (

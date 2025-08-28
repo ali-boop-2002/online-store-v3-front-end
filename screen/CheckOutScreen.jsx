@@ -58,10 +58,11 @@ function CheckOutScreen() {
     try {
       const createdOrder = await createOrder(orderData).unwrap();
 
-      const { url } = await createCheckoutSession({
+      const result = await createCheckoutSession({
         ...orderData,
         orderId: createdOrder._id, // send full order data as metadata
       }).unwrap();
+      const url = result?.url;
       if (url) {
         window.location.href = url;
       }
