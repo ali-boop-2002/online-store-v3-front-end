@@ -35,22 +35,20 @@ function Product({ product }) {
     <div>
       <div
         key={product._id}
-        className="border rounded-lg p-4 shadow-sm  hover:shadow-md transition bg-orange-500"
+        className="border rounded-lg p-4 shadow-sm  hover:shadow-md transition bg-gray-100 "
       >
         <Link to={`/product/${product._id}`}>
           <img
             src={`${product.image[0]}`}
             alt={product.name}
-            className="w-full h-48 object-contain mb-4 bg-purple-400"
+            className="w-full h-48 object-contain mb-4 "
           />
-          <h2 className="text-lg font-semibold bg-amber-400 ">
+          <h2 className="text-lg font-semibold ">
             {product.name.slice(0, 145)}...
           </h2>
-          <p className="text-gray-600 truncate bg-cyan-300">
-            {product.description}
-          </p>
+          <p className="text-gray-600 truncate ">{product.description}</p>
         </Link>
-        <div className="flex items-center justify-between mt-2 bg-red-500">
+        <div className="flex items-center justify-between mt-2 ">
           <p className="text-indigo-600 font-bold text-lg">${product.price}</p>
           <div className="flex flex-row">
             <StarRating value={product.rating || 0} readOnly={true} />

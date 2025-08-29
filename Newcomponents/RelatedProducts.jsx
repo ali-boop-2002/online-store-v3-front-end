@@ -28,11 +28,11 @@ function RelatedProducts() {
 
   return (
     <div className="p-6 bg-blue-100">
-      <h1 className="text-2xl md:text-3xl font-bold mb-4 text-center">
+      <h1 className="text-lg md:text-3xl font-bold mb-4 text-center">
         Related Products
       </h1>
 
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 ">
         {relatedProducts.map((product) => (
           <div
             key={product._id}
@@ -44,7 +44,12 @@ function RelatedProducts() {
                 alt={product.name}
                 className="w-full h-40 object-contain mb-2"
               />
-              <h3 className="text-lg font-semibold">{product.name}</h3>
+              <h3 className="hidden md:block md:text-lg font-semibold">
+                {product.name.slice(0, 120)}...
+              </h3>
+              <h3 className="sm:hidden block md:text-lg font-semibold">
+                {product.name.slice(0, 40)}...
+              </h3>
               <p className="text-green-600 font-bold">${product.price}</p>
             </Link>
           </div>
