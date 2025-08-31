@@ -33,6 +33,16 @@ function CheckOutScreen() {
       return;
     }
 
+    console.log("User is authenticated:", userInfo);
+    console.log("Checking cookies...");
+
+    // Check if JWT cookie exists
+    const cookies = document.cookie.split(";");
+    const jwtCookie = cookies.find((cookie) =>
+      cookie.trim().startsWith("jwt=")
+    );
+    console.log("JWT cookie found:", !!jwtCookie);
+
     const isFormValid =
       address && city && postalCode && country && shippingPrice;
 
@@ -74,16 +84,26 @@ function CheckOutScreen() {
         orderId: createdOrder._id, // send full order data as metadata
       }).unwrap();
       console.log("Checkout session created:", result);
-      const url = result?.url;
-      if (url) {
-        window.location.href = url;
+
+      if (result && result.url) {
+        window.location.href = result.url;
+      } else {
+        throw new Error("Failed to create checkout session - no URL received");
       }
     } catch (err) {
       console.error("Checkout error", err);
+      console.error("Error details:", {
+        status: err.status,
+        data: err.data,
+        message: err.message,
+      });
+
       if (err.status === 401) {
         toast.error("Authentication failed. Please log in again.");
+      } else if (err.status === 500) {
+        toast.error("Server error. Please try again later.");
       } else {
-        toast.error(err?.data?.message || "Checkout failed");
+        toast.error(err?.data?.message || err.message || "Checkout failed");
       }
     }
   };
