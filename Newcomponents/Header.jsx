@@ -138,7 +138,7 @@ function Header() {
             )}
           </div>
         ) : (
-          <Link to="/login" className="hover:text-blue-400">
+          <Link to="/login" className="hover:text-blue-400 md:text-2xl">
             Login
           </Link>
         )}

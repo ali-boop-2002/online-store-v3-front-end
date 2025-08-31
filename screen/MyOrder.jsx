@@ -18,7 +18,7 @@ function MyOrder() {
   //   const allOrderItems = orders.flatMap((order) => order.orderItems);
 
   return (
-    <div className="p-4">
+    <div className="p-4 min-h-screen">
       <h2 className="text-2xl font-bold mb-4">Your Ordered Items</h2>
       {allOrderItems.length === 0 ? (
         <p>You have no items yet.</p>

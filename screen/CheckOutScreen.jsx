@@ -143,7 +143,7 @@ function CheckOutScreen() {
   //   }
   // };
   return (
-    <div className="md:flex md:flex-row justify-around min-w-screen  ">
+    <div className="md:flex md:flex-row justify-around min-w-screen min-h-screen  ">
       <div className="md:hidden flex flex-row items-center space-x-4 bg-gray-200 overflow-x-auto w-full p-4">
         {cartItems.map((item) => (
           <div
