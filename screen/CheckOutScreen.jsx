@@ -3,15 +3,17 @@ import { useCreateOrderMutation } from "@/slices/orderApiSlice";
 import { useCreateCheckoutSessionMutation } from "@/slices/paymentSlice";
 // import { loadStripe } from "@stripe/stripe-js";
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 
 function CheckOutScreen() {
   const { cartItems } = useSelector((state) => state.cart);
-  console.log(cartItems);
-  const [createOrder, { loading: creating, error: orderError }] =
-    useCreateOrderMutation();
-  const [createCheckoutSession, { loading, error }] =
+  const { userInfo } = useSelector((state) => state.auth);
+  console.log("Cart items:", cartItems);
+  console.log("User info:", userInfo);
+
+  const [createOrder] = useCreateOrderMutation();
+  const [createCheckoutSession, { loading }] =
     useCreateCheckoutSessionMutation();
   const [address, setAddress] = useState("");
   const [city, setCity] = useState("");
@@ -25,6 +27,12 @@ function CheckOutScreen() {
   }, 0);
 
   const handleCheckout = async () => {
+    // Check if user is authenticated
+    if (!userInfo) {
+      toast.error("Please log in to proceed with checkout");
+      return;
+    }
+
     const isFormValid =
       address && city && postalCode && country && shippingPrice;
 
@@ -56,19 +64,27 @@ function CheckOutScreen() {
     };
 
     try {
+      console.log("Creating order with data:", orderData);
+      console.log("User info:", userInfo);
       const createdOrder = await createOrder(orderData).unwrap();
+      console.log("Order created successfully:", createdOrder);
 
       const result = await createCheckoutSession({
         ...orderData,
         orderId: createdOrder._id, // send full order data as metadata
       }).unwrap();
+      console.log("Checkout session created:", result);
       const url = result?.url;
       if (url) {
         window.location.href = url;
       }
     } catch (err) {
       console.error("Checkout error", err);
-      toast.error("Checkout error", err);
+      if (err.status === 401) {
+        toast.error("Authentication failed. Please log in again.");
+      } else {
+        toast.error(err?.data?.message || "Checkout failed");
+      }
     }
   };
 
@@ -107,51 +123,85 @@ function CheckOutScreen() {
   //   }
   // };
   return (
-    <div className="md:flex md:flex-row min-h-screen min-w-screen">
-      <div className="md:ml-5  ">
+    <div className="md:flex md:flex-row justify-around min-w-screen  ">
+      <div className="md:hidden flex flex-row items-center space-x-4 bg-gray-200 overflow-x-auto w-full p-4">
         {cartItems.map((item) => (
           <div
             key={item._id}
-            className="flex rounded-2xl flex-row justify-evenly max-w-3xs mt-3 p-3 ml-4"
+            className="flex flex-col border border-gray-500 rounded-lg min-w-[200px] p-3"
           >
-            <img src={item.image} className="h-15 w-20 " />
-            <div>
-              <p> ${item.price}</p>
-              <p>quantity {item.qty}</p>
-              <p>{item.description.slice(0, 40)}...</p>
+            <div className="flex justify-center items-center h-32">
+              <img
+                src={item.image}
+                alt={item.name}
+                className="object-contain h-full"
+              />
+            </div>
+            <div className="flex flex-col justify-center items-center mt-2">
+              <p className="font-bold">${item.price}</p>
+              <p>x {item.qty}</p>
             </div>
           </div>
         ))}
       </div>
-      <div className=" rounded-2xl md:ml-16 mt-6 p-4 md:shadow-2xl bg-gray-100 m-2">
-        <form className="flex flex-col sm:min-w-3xl gap-20  ">
-          <h1 className="text-3xl">Shipping Address</h1>
-          <input
-            type="text"
-            className="bg-white h-15 rounded-2xl sm:max-w-170 focus:outline-none focus:ring-4 focus:ring-blue-400"
-            value={address}
-            onChange={(e) => setAddress(e.target.value)}
-            required
-            placeholder="address"
-          ></input>
-          <input
-            type="text"
-            className="bg-white rounded focus:outline-none focus:ring-4 sm:max-w-170 focus:ring-blue-400"
-            required
-            placeholder="city"
-            value={city}
-            onChange={(e) => setCity(e.target.value)}
-          ></input>
-          <input
-            type="text"
-            className="bg-white focus:outline-none focus:ring-4 sm:max-w-170 focus:ring-blue-400"
-            required
-            placeholder="postalCode"
-            value={postalCode}
-            onChange={(e) => setPostalCode(e.target.value)}
-          ></input>
+      <div className=" hidden md:flex flex-col bg-gray-200 justify-center items-center space-y-1 overflow-y-scroll max-w-[200px] w-full p-4">
+        {cartItems.map((item) => (
+          <div
+            key={item._id}
+            className="flex flex-col  border border-gray-300 max-w-[200px] min-w-[200px] p-1"
+          >
+            <div className="flex justify-center items-center h-32">
+              <img
+                src={item.image}
+                alt={item.name}
+                className="object-contain h-full"
+              />
+            </div>
+            <div className="flex flex-col justify-center items-center mt-2">
+              <p className="font-bold">${item.price}</p>
+              <p>x {item.qty}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+      <div className=" p-4">
+        {!userInfo && (
+          <div className="bg-gray-100 border border-gray-400  px-4 py-3 rounded mb-4">
+            Please log in to proceed with checkout
+          </div>
+        )}
+        <form className="flex flex-col space-y-2">
+          <div>
+            <h1 className="md:text-3xl text-xl font-bold">Delivery</h1>
+          </div>
+          <div className=" space-y-2">
+            <input
+              type="text"
+              className="border-2 border-gray-200 rounded-2xl p-4 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
+              value={address}
+              onChange={(e) => setAddress(e.target.value)}
+              required
+              placeholder="address"
+            ></input>
+            <input
+              type="text"
+              className="border-2 border-gray-200 rounded-2xl p-4 w-full focus:outline-none focus:ring-2  focus:ring-blue-400"
+              required
+              placeholder="city"
+              value={city}
+              onChange={(e) => setCity(e.target.value)}
+            ></input>
+            <input
+              type="text"
+              className="border-gray-200 border-2 rounded-2xl focus:outline-none focus:ring-2 w-full p-4 focus:ring-blue-400"
+              required
+              placeholder="postalCode"
+              value={postalCode}
+              onChange={(e) => setPostalCode(e.target.value)}
+            ></input>
+          </div>
           <select
-            className="bg-white rounded-2xl h-20 focus:outline-none sm:max-w-170 focus:ring-4 focus:ring-blue-400"
+            className="bg-white p-4 focus:outline-none w-full focus:ring-2 border-2 border-gray-200 rounded-2xl focus:ring-blue-400"
             value={country}
             onChange={(e) => setCountry(e.target.value)}
           >
@@ -160,7 +210,7 @@ function CheckOutScreen() {
             <option value={"CA"}>CA</option>
           </select>
           <select
-            className="bg-white rounded-2xl h-20 focus:outline-none focus:ring-4 sm:max-w-170 focus:ring-blue-400"
+            className="bg-white  focus:outline-none focus:ring-2 border-2 border-gray-200 rounded-2xl p-4 w-full focus:ring-blue-400"
             value={shippingPrice}
             onChange={(e) => setShippingPrice(Number(e.target.value))} // Convert to number
           >
@@ -175,14 +225,20 @@ function CheckOutScreen() {
           </div>
         )}
       </div>
-      <div className="max-w-70 m-2">
+      <div>
         {loading ? (
           <LoadingSpinner />
         ) : (
-          <div className="mt-4 p-5 text-xl bg-gray-100 rounded-2xl md:min-w-70">
-            <p>Items: ${itemsPrice.toFixed(2)}</p>
-            <p>Tax: ${(0.08 * itemsPrice).toFixed(2)}</p>
-            <p>Shipping: ${shippingPrice || 0}</p>
+          <div className="p-5 md:text-xl ">
+            <p className="border-b-2 pb-2 border-gray-300">
+              Items: ${itemsPrice.toFixed(2)}
+            </p>
+            <p className="border-b-2 pb-2 border-gray-300">
+              Tax: ${(0.08 * itemsPrice).toFixed(2)}
+            </p>
+            <p className="border-b-2 pb-2 border-gray-300">
+              Shipping: ${shippingPrice || 0}
+            </p>
             <p className="font-bold">
               Total: $
               {(itemsPrice + (shippingPrice || 0) + 0.08 * itemsPrice).toFixed(
@@ -190,8 +246,17 @@ function CheckOutScreen() {
               )}
             </p>
             <button
-              className="bg-amber-300 p-3 rounded-2xl hover:cursor-pointer shadow-2xl"
+              className={`p-3 rounded-2xl w-full ${
+                !userInfo
+                  ? "bg-gray-300 cursor-not-allowed"
+                  : "bg-blue-300 hover:cursor-pointer"
+              }`}
               onClick={async () => {
+                if (!userInfo) {
+                  toast.error("Please log in to proceed with checkout");
+                  return;
+                }
+
                 const isFormValid =
                   address && city && postalCode && country && shippingPrice;
 
@@ -203,8 +268,9 @@ function CheckOutScreen() {
                 // await handleSubmit(); // 1. Store order in DB
                 await handleCheckout(); // 2. Redirect to Stripe
               }}
+              disabled={!userInfo}
             >
-              Proceed to Payment
+              {!userInfo ? "Please Log In" : "Proceed to Payment"}
             </button>
           </div>
         )}

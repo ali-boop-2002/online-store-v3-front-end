@@ -28,6 +28,7 @@ function Product({ product }) {
         countInStock: product.countInStock,
         image: product.image[0],
         price: product.price,
+        qty: 1,
       })
     );
   };

@@ -31,12 +31,16 @@ function UserCart() {
   };
 
   return (
-    <div className="container mx-auto p-6  min-h-screen min-w-screen">
-      <h1 className="text-3xl font-bold mb-6 text-blue-800">Shopping Cart</h1>
+    <div className="container mx-auto  flex flex-col md:p-6  min-h-screen min-w-screen">
+      <div className=" flex justify-center  items-center text-center">
+        <h1 className="md:text-3xl my-4 font-bold md:mb-6 text-blue-800">
+          Shopping Cart
+        </h1>
+      </div>
 
-      <div className="flex flex-col lg:flex-row justify-between gap-6">
+      <div className="flex flex-col justify-between items-center gap-6  ">
         {/* Cart Items List */}
-        <div className="flex-1">
+        <div className="  flex flex-col justify-center items-center">
           {cartItems.length === 0 ? (
             <p className="text-gray-600">
               Your cart is empty.{" "}
@@ -58,7 +62,7 @@ function UserCart() {
         </div>
 
         {/* Total Price Box */}
-        <div className="bg-blue-500 text-white rounded-xl shadow-lg p-6 w-full max-w-sm self-start">
+        <div className="bg-blue-500  text-white md:rounded-xl p-6 w-full md:max-w-2xl">
           <h2 className="text-2xl font-semibold mb-4">Order Summary</h2>
           <p className="text-lg">Total Items: {cartItems.length}</p>
           <p className="text-xl font-bold mt-2">

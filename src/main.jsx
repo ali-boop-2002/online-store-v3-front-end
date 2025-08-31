@@ -9,7 +9,7 @@ import "react-toastify/dist/ReactToastify.css";
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <Provider store={store}>
-      <App />
+      <App className="bg-amber-200" />
     </Provider>
   </StrictMode>
 );

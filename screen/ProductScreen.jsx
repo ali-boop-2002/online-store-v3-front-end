@@ -137,7 +137,7 @@ function ProductScreen() {
           <div className="relative h-24 ">
             <div className="absolute left-1/2 transform -translate-x-1/2 top-0">
               <button
-                className="bg-amber-300 rounded-3xl h-10 w-40 px-4 hover:cursor-pointer transform hover:scale-110 shadow-2xl hover:bg-amber-400 transition-all"
+                className="bg-amber-300 flex justify-center text-center items-center rounded-3xl h-10 w-40 px-4 hover:cursor-pointer transform hover:scale-110 shadow-2xl hover:bg-amber-400 transition-all"
                 onClick={() => {
                   // handleIncreaseQuantity();
                   handleAddToCart();

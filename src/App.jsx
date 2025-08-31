@@ -57,7 +57,7 @@ const router = createBrowserRouter([
 function App() {
   return (
     <>
-      <div className="min-h-screen min-w-screen ">
+      <div className=" min-w-screen ">
         <ToastContainer
           position="top-center"
           autoClose={5000}

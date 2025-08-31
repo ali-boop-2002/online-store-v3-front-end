@@ -4,7 +4,7 @@ import Footer from "../Newcomponents/Footer";
 
 function AppLayout() {
   return (
-    <div>
+    <div className="min-w-screen">
       <Header />
       <Outlet />
       <Footer />
