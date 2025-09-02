@@ -23,7 +23,7 @@ const orderApiSlice = apiSlice.injectEndpoints({
     }),
 
     getMyOrder: builder.query({
-      query: () => `${API_ENDPOINTS.ORDERS}/myOrders`,
+      query: () => `${API_ENDPOINTS.ORDERS}/myorders`,
       providesTags: ["Order"],
     }),
 
